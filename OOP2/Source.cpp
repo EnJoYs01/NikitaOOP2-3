@@ -1,16 +1,18 @@
 #include"pch.h"
 #include"Mirror.h"
 #include"Prism.h"
-#include"LedLamp.h"
-#include"UVLamp.h"
+#include"LedFlashlight.h"
+#include"SwitchableFlashlight.h"
 #include"LedPhoton.h"
 #include"UVPhoton.h"
 
-const int MAX_PHOTONS = 70;
+const int MAX_SWITCHABLE_PHOTONS = 60;
 
 HDC hdc;
+HWND hwnd{};
+MSG msg{};
 
-std::vector<Lamp*> Lamps;
+std::vector<Flashlight*> Flashlights;
 std::vector<Photon*> Photons;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -19,28 +21,62 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_TIMER:
 	{
-		for (int i = 0; i < MAX_PHOTONS; i++) {
-			int x1 = 115 + rand() % (155 - 115 + 1);
-			int x2 = Lamps[1]->getX() - 55 + rand() % ((Lamps[1]->getX() - 15) - (Lamps[1]->getX() - 55) + 1);
-			if ((Photons[i]->getY() >= 105 || Photons[i]->getX() >= 200) && Photons[i]->getColor() == RGB(244, 169, 0)) {
-				Photons[i]->setTrajectory(0);
-				Photons[i]->MoveTo(x1, 30);
+		int maxLedPhotons = Flashlights[1]->getBrightness();
+		for (int i = 0; i < MAX_SWITCHABLE_PHOTONS + maxLedPhotons; i++) {
+			int switchableY = Flashlights[0]->getY() - Flashlights[0]->GetWidth() / 2 +
+				rand() % ((Flashlights[0]->getY() + Flashlights[0]->GetWidth() / 2 + 15) - (Flashlights[0]->getY() - Flashlights[0]->GetWidth() / 2) + 1);
+			int ledY = Flashlights[1]->getY() - Flashlights[1]->GetWidth() / 2 +
+				rand() % ((Flashlights[1]->getY() + Flashlights[1]->GetWidth() / 2 + 15) - (Flashlights[1]->getY() - Flashlights[1]->GetWidth() / 2) + 1);
+
+			if (Photons[i]->getSourse() == 1 || Photons[i]->getSourse() == 2) {
+				if ((Photons[i]->getY() >= Flashlights[0]->getY() + 50 || Photons[i]->getX() <= Flashlights[0]->getX() - 70 
+				|| Photons[i]->getY() <= Flashlights[0]->getY() - 100)) {
+					Photons[i]->setTrajectory(0);
+					Photons[i]->MoveTo(Flashlights[0]->getX() - 7, switchableY);
+				}
+				else if (Photons[i]->getX() >= Flashlights[0]->getX() - 6) {
+					Photons[i]->setTrajectory(0);
+					Photons[i]->MoveTo(Flashlights[0]->getX() - 7, switchableY);
+				}
+				else if (Photons[i]->getX() <= Flashlights[0]->getX() - 40 && Photons[i]->getY() >= Flashlights[0]->getY() - 15 
+				&& Photons[i]->getY() <= Flashlights[0]->getY() && !Photons[i]->isUsed()) {
+					int value = rand() % 2;
+					if (value == 0) {
+						Photons[i]->setTrajectory(1);
+					}
+					else {
+						Photons[i]->setTrajectory(2);
+					}
+				}
+				else if (Photons[i]->getX() <=Flashlights[0]->getX() - 44 && Photons[i]->getX() >= Flashlights[0]->getX() - 47 
+				&& Photons[i]->getY() >= Flashlights[0]->getY() + 10 && Photons[i]->getY() <= Flashlights[0]->getY() + 30) {
+					Photons[i]->setTrajectory(3);
+				}			
 			}
-			else if (Photons[i]->getY() <= 20 && Photons[i]->getColor() == RGB(244, 169, 0)) {
-				Photons[i]->setTrajectory(0);
-				Photons[i]->MoveTo(x1, 30);
-			} else if ((Photons[i]->getY() >= 105 || Photons[i]->getX() >= 1000) && Photons[i]->getColor() == RGB(62, 6, 148)) {
-				Photons[i]->setTrajectory(0);
-				Photons[i]->MoveTo(x2, 30);
-			}
-			else if (Photons[i]->getY() <= 20 && Photons[i]->getColor() == RGB(62, 6, 148)) {
-				Photons[i]->setTrajectory(0);
-				Photons[i]->MoveTo(x2, 30);
-			}
-			else if (Photons[i]->getX() >= 120 && Photons[i]->getX() <= 140 && Photons[i]->getY() >= 70) {
-				Photons[i]->setTrajectory(1);
-			}else if (Photons[i]->getX() >= 145 && Photons[i]->getX() <= 165 && Photons[i]->getY() >= 60) {
-				Photons[i]->setTrajectory(2);
+			else {
+				if ((Photons[i]->getY() >= Flashlights[1]->getY() + 100 || Photons[i]->getX() >= Flashlights[1]->getX() + 30 + 7 + 70 
+				|| Photons[i]->getY() <= Flashlights[1]->getY() - 50)) {
+					Photons[i]->setTrajectory(0);
+					Photons[i]->MoveTo(Flashlights[1]->getX() + 30 + 7, ledY);
+				}
+				else if (Photons[i]->getX() <= Flashlights[1]->getX() + 30 + 6) {
+					Photons[i]->setTrajectory(0);
+					Photons[i]->MoveTo(Flashlights[1]->getX() + 30 + 7, ledY);
+				}
+				else if (Photons[i]->getX() >= Flashlights[0]->getX() - 60 && Photons[i]->getY() >= Flashlights[0]->getY() - 15
+				&& Photons[i]->getY() <= Flashlights[0]->getY() && !Photons[i]->isUsed()) {
+					int value = rand() % 2;
+					if (value == 0) {
+						Photons[i]->setTrajectory(1);
+					}
+					else {
+						Photons[i]->setTrajectory(2);
+					}
+				}
+				else if (Photons[i]->getX() >= Flashlights[0]->getX() - 53 && Photons[i]->getX() <= Flashlights[0]->getX() - 50 
+				&& Photons[i]->getY() >= Flashlights[0]->getY() + 10 && Photons[i]->getY() <= Flashlights[0]->getY() + 30) {
+					Photons[i]->setTrajectory(3);
+				}
 			}
 		}
 		InvalidateRect(hwnd, NULL, TRUE);
@@ -49,29 +85,49 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
-		hdc = BeginPaint(hwnd, &ps);		
+		hdc = BeginPaint(hwnd, &ps);
 
-		Mirror myMirror(120, 70);
+		Mirror myMirror(Flashlights[0]->getX() - 53, Flashlights[0]->getY() + 10);
 		myMirror.Show();
 
-		Prism myPrism(145, 60);
+		Prism myPrism(Flashlights[0]->getX() - 60, Flashlights[0]->getY() - 15);
 		myPrism.Show();
 
-		for (int i = 0; i < Lamps.size(); i++) {
-			Lamps[i]->Show();
+		for (int i = 0; i < Flashlights.size(); i++) {
+			Flashlights[i]->Show();
 		}
 
-		for (int i = 0; i < MAX_PHOTONS; i++) {
-			if (Photons[i]->getTrajectory() == 1) {
-				Photons[i]->MoveTo(Photons[i]->getX(), Photons[i]->getY() - Photons[i]->getSpeed());
+		int maxLedPhotons = Flashlights[1]->getBrightness();
+			for (int i = 0; i < MAX_SWITCHABLE_PHOTONS + maxLedPhotons; i++) {
+				if (Photons[i]->getSourse() == 1 || Photons[i]->getSourse() == 2) {			
+					if (Photons[i]->getTrajectory() == 1) {
+						Photons[i]->MoveTo(Photons[i]->getX() - Photons[i]->getSpeed(), Photons[i]->getY() - Photons[i]->getSpeed());
+					}
+					else if (Photons[i]->getTrajectory() == 2) {
+						Photons[i]->MoveTo(Photons[i]->getX() - Photons[i]->getSpeed(), Photons[i]->getY() + Photons[i]->getSpeed());
+					}
+					else if (Photons[i]->getTrajectory() == 3) {
+						Photons[i]->MoveTo(Photons[i]->getX() + Photons[i]->getSpeed(), Photons[i]->getY());
+					}
+					else{
+						Photons[i]->MoveTo(Photons[i]->getX() - Photons[i]->getSpeed(), Photons[i]->getY());
+					}
+				}
+				else {
+					if (Photons[i]->getTrajectory() == 1) {
+						Photons[i]->MoveTo(Photons[i]->getX() + Photons[i]->getSpeed(), Photons[i]->getY() - Photons[i]->getSpeed());
+					}
+					else if (Photons[i]->getTrajectory() == 2) {
+						Photons[i]->MoveTo(Photons[i]->getX() + Photons[i]->getSpeed(), Photons[i]->getY() + Photons[i]->getSpeed());
+					}
+					else if (Photons[i]->getTrajectory() == 3) {
+						Photons[i]->MoveTo(Photons[i]->getX() - Photons[i]->getSpeed(), Photons[i]->getY());
+					}
+					else {
+						Photons[i]->MoveTo(Photons[i]->getX() + Photons[i]->getSpeed(), Photons[i]->getY());
+					}
+				}
 			}
-			else if (Photons[i]->getTrajectory() == 2) {
-				Photons[i]->MoveTo(Photons[i]->getX() + 5, Photons[i]->getY() + 2);
-			}
-			else {
-				Photons[i]->MoveTo(Photons[i]->getX(), Photons[i]->getY() + Photons[i]->getSpeed());
-			}
-		}
 
 		EndPaint(hwnd, &ps);
 		break;
@@ -93,23 +149,34 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR czCmdLine, int nCmdShow)
 {
 	srand(time(NULL));
-	
-	Lamps.push_back(new LedLamp(100, 100, 70, 30));
-	Lamps.push_back(new UVLamp(Lamps[0]->getX() + 115, 100, 70 , 30)/*(215, 100, 70, 30)*/);
 
-	int x = 0;
-	for (int i = 0; i < MAX_PHOTONS/2; i++) {
-		x = Lamps[0]->getX() + 15 + rand() % (Lamps[0]->getX() + 55 - (Lamps[0]->getX() + 15) + 1);
-		Photons.push_back(new LedPhoton(x, 30, x, 30 + 20, rand() % 5 + 1));
+	Flashlights.push_back(new SwitchableFlashlight(300, 100, 20, 1));
+	Flashlights.push_back(new LedFlashlight(Flashlights[0]->getX() - 135, 100, 20, 1));
+
+	int maxLedPhotons = Flashlights[1]->getBrightness();
+
+	int y = 0;
+	if (Flashlights[0]->GetTypeOfLight() == 1) {
+		for (int i = 0; i < MAX_SWITCHABLE_PHOTONS; i++) {
+			y = Flashlights[0]->getY() - Flashlights[0]->GetWidth() / 2 +
+				rand() % ((Flashlights[0]->getY() + Flashlights[0]->GetWidth() / 2 + 15) - (Flashlights[0]->getY() - Flashlights[0]->GetWidth() / 2) + 1);
+			Photons.push_back(new UVPhoton(Flashlights[0]->getX() - 7, y, 1, rand() % 3 + 1));
+		}
+	}
+	else
+	{
+		for (int i = 0; i < MAX_SWITCHABLE_PHOTONS; i++) {
+			y = Flashlights[0]->getY() - Flashlights[0]->GetWidth() / 2 +
+				rand() % ((Flashlights[0]->getY() + Flashlights[0]->GetWidth() / 2 + 15) - (Flashlights[0]->getY() - Flashlights[0]->GetWidth() / 2) + 1);
+			Photons.push_back(new LedPhoton(Flashlights[0]->getX() - 7, y, 2, rand() % 3 + 1));
+		}
 	}
 
-	for (int i = MAX_PHOTONS / 2;  i < MAX_PHOTONS; i++) {
-		int x12 = Lamps[1]->getX() - 55 + rand() % ((Lamps[1]->getX() - 15) - (Lamps[1]->getX() - 55) + 1);
-		Photons.push_back(new UVPhoton(x12, 30, x12, 30 + 20, rand() % 5 + 1, RGB(62, 6, 148)));
+	for (int i = MAX_SWITCHABLE_PHOTONS; i < MAX_SWITCHABLE_PHOTONS + maxLedPhotons; i++) {
+		y = Flashlights[1]->getY() - Flashlights[1]->GetWidth() / 2 +
+			rand() % ((Flashlights[1]->getY() + Flashlights[1]->GetWidth() / 2 + 15) - (Flashlights[1]->getY() - Flashlights[1]->GetWidth() / 2) + 1);		
+		Photons.push_back(new LedPhoton(Flashlights[1]->getX() + 30 + 7, y, 0, rand() % 3 + 1));
 	}
-
-	HWND hwnd{};
-	MSG msg{};
 
 	WNDCLASSEX wc{ sizeof(WNDCLASSEX) };
 	wc.cbClsExtra = 0;

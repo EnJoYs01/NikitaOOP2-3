@@ -14,31 +14,10 @@
       <FileName>Figure.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Lamp" Collapsed="true">
-    <Position X="8.25" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAACAAAAAQAEAAAAAAAAAAEQAAACCAAAAAAAAA=</HashCode>
-      <FileName>Lamp.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="LedLamp" Collapsed="true">
-    <Position X="9.25" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAgAAAAAAAEAAAAAAAAAAEAAAAAAAAAEAAAAA=</HashCode>
-      <FileName>LedLamp.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="UVLamp" Collapsed="true">
-    <Position X="7.25" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAAAAAAEAAAAAAAAAAEBAAAAAAAAAAAAAA=</HashCode>
-      <FileName>UVLamp.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Photon" Collapsed="true">
     <Position X="3.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAACAAEAAAAAAAgAIcAQABAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAACCAEAAAIAAAggIcAQABAAAAQAQAAAA=</HashCode>
       <FileName>Photon.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -68,6 +47,27 @@
     <TypeIdentifier>
       <HashCode>AAAAAQAAAAAAAAAAEAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Prism.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flashlight" Collapsed="true">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAEAAAAAAAAAAUAAAAAAAAAAEAAAAAAAgAEAAQAQ=</HashCode>
+      <FileName>Flashlight.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LedFlashlight" Collapsed="true">
+    <Position X="7.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAQAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LedFlashlight.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SwitchableFlashlight" Collapsed="true">
+    <Position X="9.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAEAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SwitchableFlashlight.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

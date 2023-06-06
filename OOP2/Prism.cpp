@@ -11,9 +11,7 @@ void Prism::Show() {
 
 	MoveToEx(hdc, this->getX(), this->getY(), NULL);
 	LineTo(hdc, this->getX() + 10, this->getY() + 15);
-	MoveToEx(hdc, this->getX() + 10, this->getY() + 15, NULL);
 	LineTo(hdc, this->getX() + 20, this->getY());
-	MoveToEx(hdc, this->getX() + 20, this->getY(), NULL);
 	LineTo(hdc, this->getX(), this->getY());
 
 	DeleteObject(pen);

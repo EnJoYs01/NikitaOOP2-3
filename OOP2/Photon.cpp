@@ -3,8 +3,9 @@
 
 extern HDC hdc;
 
-Photon::Photon(int startX, int startY, int endX, int endY, int speed, COLORREF color) : Point(startX, startY, color) {
+Photon::Photon(int startX, int startY, int Sourse, int speed, COLORREF color) : Point(startX, startY, color) {
 	this->setSpeed(speed);
+	this->setSourse(Sourse);
 }
 
 void Photon::Show() {
@@ -14,13 +15,9 @@ void Photon::Show() {
 		MoveToEx(hdc, this->getX(), this->getY(), NULL);
 		LineTo(hdc, this->getX() + 7, this->getY() + 10);
 	}
-	else if (this->getTrajectory() == 1) {
-		MoveToEx(hdc, this->getX(), this->getY(), NULL);
-		LineTo(hdc, this->getX(), this->getY() + 10);
-	}
 	else {
 		MoveToEx(hdc, this->getX(), this->getY(), NULL);
-		LineTo(hdc, this->getX(), this->getY() + 10);
+		LineTo(hdc, this->getX() - 10, this->getY());
 	}
 	DeleteObject(pen);
 }
@@ -33,7 +30,14 @@ void Photon::Hide() {
 }
 
 void Photon::setTrajectory(int value) {
-	this->trajectory = value;
+	if (value == 0) {
+		this->trajectory = value;
+		this->used = false;
+	}
+	else {
+		this->trajectory = value;
+		this->used = true;
+	}
 }
 
 int Photon::getTrajectory() {
@@ -46,4 +50,16 @@ void Photon::setSpeed(int speed) {
 
 int Photon::getSpeed() {
 	return this->speed;
+}
+
+int Photon::getSourse() {
+	return this->sourse;
+}
+
+void Photon::setSourse(int Sourse) {
+	this->sourse = Sourse;
+}
+
+bool Photon::isUsed() {
+	return this->used;
 }

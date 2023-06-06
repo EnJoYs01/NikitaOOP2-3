@@ -124,7 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -138,16 +138,16 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Lamp.cpp" />
+    <ClCompile Include="Flashlight.cpp" />
     <ClCompile Include="Figure.cpp" />
-    <ClCompile Include="LedLamp.cpp" />
+    <ClCompile Include="LedFlashlight.cpp" />
     <ClCompile Include="LedPhoton.cpp" />
     <ClCompile Include="Mirror.cpp" />
     <ClCompile Include="pch.cpp">
@@ -158,20 +158,20 @@
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Prism.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="UVLamp.cpp" />
+    <ClCompile Include="SwitchableFlashlight.cpp" />
     <ClCompile Include="UVPhoton.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lamp.h" />
+    <ClInclude Include="Flashlight.h" />
     <ClInclude Include="Figure.h" />
-    <ClInclude Include="LedLamp.h" />
+    <ClInclude Include="LedFlashlight.h" />
     <ClInclude Include="LedPhoton.h" />
     <ClInclude Include="Mirror.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Photon.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Prism.h" />
-    <ClInclude Include="UVLamp.h" />
+    <ClInclude Include="SwitchableFlashlight.h" />
     <ClInclude Include="UVPhoton.h" />
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,7 @@ void Mirror::Show() {
 	MoveToEx(hdc, this->getX(), this->getY(), NULL);
 	HPEN pen = CreatePen(PS_SOLID, 1, this->getColor());
 	SelectObject(hdc, pen);
-	Ellipse(hdc, this->getX(), this->getY(), this->getX() + 20, this->getY() + 9);
+	Ellipse(hdc, this->getX(), this->getY(), this->getX() + 9, this->getY() + 20);
 	DeleteObject(pen);
 }
 
